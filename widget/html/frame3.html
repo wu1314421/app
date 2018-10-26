@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>frame3</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../css/aui.css" />
+    <style type="text/css">
+        .topxm {
+            text-align: center
+        }
+    </style>
+</head>
+<!---->
+<header>
+    <div class="aui-info aui-margin-t-5 aui-padded-l-10 aui-padded-r-10">
+        <div class="aui-info-item">
+            <img src="../image/gril.jpg" style="width:1.25rem" class="aui-img-round" />
+            <span class="aui-margin-l-15">张三</span>
+        </div>
+    </div>
+</header>
+
+
+<body>
+
+    <div class="aui-content aui-margin-b-15">
+        <ul class="aui-list aui-list-in">
+            <li class="aui-list-header">
+                教务信息
+            </li>
+            <li class="aui-list-item aui-list-item-middle">
+                <div class="aui-list-item-inner aui-list-item-arrow" onclick="openmydata()">
+                    <div class="aui-list-item-title">个人信息</div>
+            </li>
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner aui-list-item-arrow">
+                    <div class="aui-list-item-title">培养方案</div>
+                </div>
+            </li>
+            <li class="aui-list-item aui-list-item-middle">
+                <div class="aui-list-item-inner aui-list-item-arrow">
+                    <div class="aui-list-item-title">同班同学</div>
+            </li>
+
+
+        </ul>
+        </div>
+
+        <div class="aui-content aui-margin-b-15">
+            <ul class="aui-list aui-list-in">
+                <li class="aui-list-header">
+                    软件信息
+                </li>
+                <li class="aui-list-item aui-list-item-middle">
+                    <div class="aui-list-item-inner aui-list-item-arrow">
+                        <div class="aui-list-item-title">分享软件</div>
+                </li>
+                <li class="aui-list-item">
+                    <div class="aui-list-item-inner aui-list-item-arrow">
+                        <div class="aui-list-item-title">版本更新</div>
+                    </div>
+                </li>
+                <li class="aui-list-item">
+                    <div class="aui-list-item-inner aui-list-item-arrow">
+                        <div class="aui-list-item-title">关于作者</div>
+                    </div>
+                </li>
+                <li class="aui-list-item">
+                    <div class="aui-list-item-inner">
+                        <div class="aui-list-item-title" onclick="layout()">切换账号</div>
+                    </div>
+                </li>
+            </ul>
+            </div>
+
+</body>
+<script type="text/javascript " src="../script/api.js "></script>
+<script type="text/javascript ">
+    apiready = function() {
+        //适配iOS7+、Android4.4+系统状态栏，为传入的DOM元素增加适当的上内边距，避免header与状态栏重叠
+        $api.fixStatusBar($api.dom('header'));
+        //设置状态栏字体颜色和背景颜色  style是字体颜色，color是背景颜色，状态栏指手机时间那里。
+        //背景颜色设置只支持安卓
+        api.setStatusBarStyle({
+            style: 'dark'
+        });
+    }
+
+    function openmydata() {
+        api.openFrame({
+            name: 'mydata',
+            url: 'my/mydata.html',
+            bounces: false
+        });
+    }
+
+    function layout() {
+        token = $api.getStorage('token').value = '';
+        api.openWin({
+            name: 'login',
+            url: 'login.html'
+        });
+        api.closeWin({
+            name: 'main'
+        });
+
+
+    }
+</script>
+
+</html>
