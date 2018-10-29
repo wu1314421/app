@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>成绩</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../css/aui.css" />
+
+    <style type="text/css">
+        body {
+            background-color: #fff
+        }
+
+        table {
+            margin: 0 auto;
+            text-align: center;
+            font-size: 16px;
+            border-width: 1px;
+            border-style: solid;
+            border-color: #a9c6c9;
+            width: 100%;
+        }
+
+        table tr th {
+            height: 30px;
+            border-width: 1px;
+            border-style: solid;
+            border-color: #a9c6c9;
+            background-color: #99CCFF;
+        }
+
+        .onecolor {
+            background-color: #99CCCC;
+        }
+
+        .twocolor {
+            background-color: #CCCCFF;
+        }
+    </style>
+
+</head>
+<header class="aui-bar aui-bar-nav">
+    <a class="aui-pull-left aui-btn">
+        <span class="aui-iconfont aui-icon-left" onclick="back()"></span>
+    </a>
+    <div class="flex-wrap flex-vertical border-b">成绩</div>
+</header>
+
+<body>
+    <div>
+        <table id='cj'>
+            <th>学年学期</th>
+            <th>课程名</th>
+            <th>成绩</th>
+        </table>
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/aui-slide.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        //适配iOS7+、Android4.4+系统状态栏，为传入的DOM元素增加适当的上内边距，避免header与状态栏重叠
+        $api.fixStatusBar($api.dom('header'));
+        //设置状态栏字体颜色和背景颜色  style是字体颜色，color是背景颜色，状态栏指手机时间那里。
+        //背景颜色设置只支持安卓
+        api.setStatusBarStyle({
+            style: 'dark'
+        });
+        cj();
+    }
+
+    function cj() {
+        name = $api.getStorage('name');
+        token = $api.getStorage('token');
+        api.ajax({
+            url: 'http://118.89.230.49:8899/cj?name=' + name + '&token=' + token,
+            method: 'get',
+        }, function(ret, err) {
+            if (ret) {
+                div = document.getElementById("cj")
+                for (var a = 0; a < ret.length; a++) {
+                    ret1 = ret[a];
+                    var data = "";
+                    if (a % 2 != 0) {
+                        data += "<tr class='onecolor'>";
+                    } else {
+                        data += "<tr class='twocolor'>";
+                    }
+                    for (var j = 0; j < 3; j++) {
+                        data += "<td>" + ret1[j + 1] + "</td>";
+                    }
+                    div.innerHTML = div.innerHTML + data;
+
+                }
+            } else {
+                alert(JSON.stringify(err.msg));
+            }
+        });
+    }
+
+
+    function back() {
+        api.closeFrame({
+            name: 'cj'
+        });
+    }
+</script>
+
+</html>

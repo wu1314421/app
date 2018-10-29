@@ -1,0 +1,174 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>底部</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <style>
+        header {
+            background-color: #56baed;
+            height: 50px;
+        }
+
+        header ul li {
+            line-height: 50px;
+            font-style: 宋体;
+            text-align: center;
+            display: none;
+            position: relative;
+            font-size: 18px;
+        }
+
+        header ul li.active {
+            display: block;
+        }
+
+        #footer {
+            background-color: #56baed
+        }
+
+        #footer ul li {
+            /*元素（这里指字体）的上内边距：*/
+            padding-top: 8%;
+            /*元素（这里指字体）的下内边距：*/
+            padding-bottom: 1%;
+            background: url() no-repeat center 2px;
+            /*规定图片的尺寸*/
+            background-size: auto 32px;
+            /*文本居中*/
+            text-align: center;
+            font-size: 18px;
+        }
+
+        #footer ul li.active {}
+
+        #footer ul li:nth-child(1) {
+            background-image: url(../image/bottombtn0101.png);
+        }
+
+        #footer ul li:nth-child(2) {
+            background-image: url(../image/bottombtn0201.png);
+        }
+
+        #footer ul li:nth-child(3) {
+            background-image: url(../image/bottombtn0301.png);
+        }
+
+        #footer ul li:nth-child(4) {
+            background-image: url(../image/bottombtn0401.png);
+        }
+
+        #footer ul li:nth-child(1).active {
+            background-image: url(../image/bottombtn0102.png);
+        }
+
+        #footer ul li:nth-child(2).active {
+            background-image: url(../image/bottombtn0202.png);
+        }
+
+        #footer ul li:nth-child(3).active {
+            background-image: url(../image/bottombtn0302.png);
+        }
+
+        #footer ul li:nth-child(4).active {
+            background-image: url(../image/bottombtn0402.png);
+        }
+
+        .flex-con {
+            overflow: auto
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrap" class="flex-wrap flex-vertical">
+        <header>
+            <ul>
+                <li class="border-b active">首页</li>
+                <li class="border-b">百宝箱</li>
+                <li class="border-b">交流墙</li>
+                <li class="border-b">个人中心</li>
+            </ul>
+        </header>
+        <div id="main" class="flex-con">
+
+        </div>
+        <div id="footer" class="border-t">
+            <ul class="flex-wrap">
+                <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con active">首页</li>
+                <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con">百宝箱</li>
+                <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con">交流墙</li>
+                <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con">我的</li>
+            </ul>
+        </div>
+    </div>
+</body>
+
+</html>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        //适配iOS7+、Android4.4+系统状态栏，为传入的DOM元素增加适当的上内边距，避免header与状态栏重叠
+        $api.fixStatusBar($api.dom('header'));
+        //设置状态栏字体颜色和背景颜色  style是字体颜色，color是背景颜色，状态栏指手机时间那里。
+        //背景颜色设置只支持安卓
+        api.setStatusBarStyle({
+            style: 'dark'
+        });
+        funIniGroup();
+
+    }
+
+    function funIniGroup() {
+        var eHeaderLis = $api.domAll('header li'),
+            frames = [];
+        for (var i = 0, len = 4; i < len; i++) {
+            frames.push({
+                name: 'frame' + i,
+                url: 'frame' + i + '.html',
+                bounces: false
+            })
+        }
+        api.openFrameGroup({
+            name: 'group',
+            scrollEnabled: false,
+            rect: {
+                x: 0,
+                //获取元素的高度,头部预留出百分比
+                y: $api.dom('header').offsetHeight,
+                w: api.winWidth,
+                h: $api.dom('#main').offsetHeight
+            },
+            index: 0,
+            frames: frames
+        }, function(ret, err) {
+
+        });
+    }
+
+    // 随意切换按钮
+    function randomSwitchBtn(tag) {
+        if (tag == $api.dom('#footer li.active')) return;
+        var eFootLis = $api.domAll('#footer li'),
+            eHeaderLis = $api.domAll('header li'),
+            index = 0;
+        for (var i = 0, len = eFootLis.length; i < len; i++) {
+            if (tag == eFootLis[i]) {
+                index = i;
+            } else {
+                $api.removeCls(eFootLis[i], 'active');
+                $api.removeCls(eHeaderLis[i], 'active');
+            }
+        }
+        $api.addCls(eFootLis[index], 'active');
+        $api.addCls(eHeaderLis[index], 'active');
+        api.setFrameGroupIndex({
+            name: 'group',
+            index: index
+        });
+    }
+</script>

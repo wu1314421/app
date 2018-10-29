@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>首页</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../css/aui-slide.css" />
+    </body>
+
+    <div id="aui-slide">
+        <div class="aui-slide-wrap">
+            <div class="aui-slide-node bg-dark">
+                <img src="http://img.pconline.com.cn/images/upload/upc/tx/photoblog/1312/04/c11/29306906_29306906_1386162237176_mthumb.jpg" />
+            </div>
+            <div class="aui-slide-node bg-dark">
+                <img src="http://pic29.nipic.com/20130509/10566252_105613004356_2.jpg" />
+            </div>
+            <div class="aui-slide-node bg-dark">
+                <img src="http://pic.58pic.com/58pic/14/64/58/12j58PICIFJ_1024.jpg" />
+            </div>
+        </div>
+        <div class="aui-slide-page-wrap">
+            <!--分页容器1-->
+        </div>
+    </div>
+
+    <section class="aui-grid">
+        <div class="aui-row">
+            <div class="aui-col-xs-3">
+                <i class="aui-iconfont aui-icon-home" onclick="kebiao()"></i>
+                <div class="aui-grid-label">课表</div>
+            </div>
+            <div class="aui-col-xs-3">
+                <i class="aui-iconfont aui-icon-gear" onclick="cj()"></i>
+                <div class="aui-grid-label">成绩</div>
+            </div>
+            <div class="aui-col-xs-3">
+                <i class="aui-iconfont aui-icon-map"></i>
+                <div class="aui-grid-label">空闲教室</div>
+            </div>
+            <div class="aui-col-xs-3">
+                <i class="aui-iconfont aui-icon-calendar"></i>
+                <div class="aui-grid-label">考试安排</div>
+            </div>
+            <div class="aui-col-xs-3">
+                <i class="aui-iconfont aui-icon-date"></i>
+                <div class="aui-grid-label">选课管理</div>
+            </div>
+            <div class="aui-col-xs-3">
+                <i class="aui-iconfont aui-icon-date"></i>
+                <div class="aui-grid-label">教学评估</div>
+            </div>
+            <div class="aui-col-xs-3">
+                <i class="aui-iconfont aui-icon-paper"></i>
+                <div class="aui-grid-label">学业预警</div>
+            </div>
+            <div class="aui-col-xs-3">
+                <i class="aui-iconfont aui-icon-paper"></i>
+                <div class="aui-grid-label">通知公告</div>
+            </div>
+        </div>
+    </section>
+
+    </body>
+    <script type="text/javascript" src="../script/api.js"></script>
+    <script type="text/javascript" src="../script/aui-slide.js"></script>
+    <script type="text/javascript">
+        apiready = function() {
+            //适配iOS7+、Android4.4+系统状态栏，为传入的DOM元素增加适当的上内边距，避免header与状态栏重叠
+            $api.fixStatusBar($api.dom('header'));
+            //设置状态栏字体颜色和背景颜色  style是字体颜色，color是背景颜色，状态栏指手机时间那里。
+            //背景颜色设置只支持安卓
+            api.setStatusBarStyle({
+                style: 'dark'
+            });
+        }
+        var slide = new auiSlide({
+            container: document.getElementById("aui-slide"),
+            // "width":300,
+            "height": 180,
+            "speed": 300,
+            "pageShow": true,
+            "autoplay": true,
+            "pageStyle": 'dot',
+            "loop": true,
+            'dotPosition': 'center',
+            currentPage: currentFun
+        })
+
+        function currentFun(index) {
+            console.log(index);
+        }
+
+        function kebiao() {
+            name = $api.getStorage('name');
+            token = $api.getStorage('token');
+            api.ajax({
+                url: 'http://118.89.230.49:8899/kebiao?name=' + name + '&token=' + token,
+                method: 'get',
+            }, function(ret, err) {
+                if (ret) {
+                    ret1 = ret[0];
+                    //    document.getElementById("xh").value = ret1[0];
+                    //    document.getElementById("xm").value = ret1[1];
+                    //    document.getElementById("sfzh").value = ret1[2];
+                    //    document.getElementById("xb").value = ret1[3];
+                    //    document.getElementById("csrq").value = ret1[4];
+                    //    document.getElementById("njmc").value = ret1[5];
+                    //    document.getElementById("xsm").value = ret1[6];
+                    //    document.getElementById("zym").value = ret1[7];
+                    //    document.getElementById("bm").value = ret1[8];
+
+                } else {
+                    alert(JSON.stringify(err.msg));
+                }
+            });
+        }
+
+        function cj() {
+            api.openFrame({
+                name: 'cj',
+                url: '../html/cj.html',
+                bounces: true,
+                vScrollBarEnabled: true,
+            });
+        }
+        function kebiao() {
+            api.openFrame({
+                name: 'kebiao',
+                url: '../html/kebiao.html',
+                bounces: true,
+                vScrollBarEnabled: true,
+            });
+        }
+
+    </script>
+
+</html>
